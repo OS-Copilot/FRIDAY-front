@@ -1,8 +1,8 @@
 {
-  "name": "jarvis",
+  "name": "friday",
   "author": "Ichinoe <shiinahiiragi@outlook.com>",
   "description": "AI agent powered by LLM.",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "main": "public/electron.js",
   "homepage": "./",
   "private": true,
@@ -33,7 +33,7 @@
   },
   "scripts": {
     "start": "concurrently --raw 'npm run dev:react' 'wait-on http://localhost:3000 && npm run dev:app'",
-    "build": "npm run pack:react && npm run pack:app",
+    "build": "npm run pack:react && npm run pack:app && mv build/ dist/",
     "dev:react": "GENERATE_SOURCEMAP=false react-scripts start",
     "dev:app": "electron .",
     "pack:react": "rm -rf ./build && react-scripts build",
@@ -65,8 +65,8 @@
     "wait-on": "^7.2.0"
   },
   "build": {
-    "appId": "com.electron.jarvis",
-    "productName": "Jarvis",
+    "appId": "com.electron.friday",
+    "productName": "FRIDAY",
     "files": [
       "build/**/*",
       "node_modules/**/*"
