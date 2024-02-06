@@ -2,7 +2,7 @@
 
 ## Usage
 
-1. Make sure that OS-Copilot/FRIDAY is properly installed;
+1. Make sure that OS-Copilot/FRIDAY is properly installed first;
 
     ```shell
     git clone https://github.com/OS-Copilot/FRIDAY
@@ -48,7 +48,7 @@
 
 ## .env Config
 
-- `REACT_APP_PATH` (**required**): absolute path of backend file;
+- `REACT_APP_PATH` (**required**): absolute path of backend directory;
 - `REACT_APP_PROXY` (optional): proxy URL used when executing python scripts;
 - `REACT_APP_MIRROR` (optional): mirror site of Hugging Face.
 
