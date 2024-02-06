@@ -11,7 +11,7 @@
     pip install pysqlite3-binary
     ```
 
-2. For developers, clone this repository and install dependencies:
+2. For developers, make sure Node.js (as well as npm) is installed:
 
     ```shell
     git clone https://github.com/OS-Copilot/FRIDAY-front
@@ -24,7 +24,7 @@
 
     change `${FRIDAY_PATH}` to real absolute path;
 
-3. For deployer, clone this repository and install dependencies:
+3. For deployer, make sure Node.js (as well as npm) is installed:
 
     ```shell
     git clone https://github.com/OS-Copilot/FRIDAY-front
@@ -37,7 +37,7 @@
 
     change `${FRIDAY_PATH}` to real absolute path;
 
-4. For users, download packed application and add `.env` file:
+4. For users, download the packed application and add an `.env` file:
 
     ```shell
     touch dist/.env
