@@ -26,8 +26,8 @@ const Sequence = (props) => {
             key={index}
             indicator={
               <StepIndicator
-                variant={index === config.length - 1 ? "soft" : "solid"}
-                color={index === config.length - 1 ? "primary" : "neutral"}
+                variant={item.result ? "soft" : "solid"}
+                color={item.result ? "neutral" : "primary"}
               >
                 {index + 1}
               </StepIndicator>
