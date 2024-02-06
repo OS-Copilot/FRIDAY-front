@@ -32,7 +32,6 @@ const sendPrompts = shuntSpawner(
     const path = window.require("path");
     const fs = window.require("fs");
     const { exec } = window.require("child_process");
-    const openBrowser = window.require('open-web-browser');
     const {
       handleAddBubble,
       handleAddStep,
@@ -58,6 +57,10 @@ const sendPrompts = shuntSpawner(
       REACT_APP_PROXY: proxyURL,
       REACT_APP_MIRROR: mirrorURL,
     } = getEnvironment();
+    if (typeof fridayDirPath !== "string") {
+      reject("Error: field REACT_APP_PATH not found. Please check your config in .env file.")
+    }
+
     const absolutePath = path.resolve(fridayDirPath);
     const queryID = new Date().getTime().toString();
     const logFileName = `${queryID}.log`;
@@ -68,7 +71,6 @@ const sendPrompts = shuntSpawner(
     )
 
     let recordIndex = 0;
-    let detected = false;
     const fingerprint = prefix;
     const timerID = setInterval(() => {
       const logFilePath = path.join(absolutePath, logDirectoryPath, logFileName);
@@ -76,10 +78,6 @@ const sendPrompts = shuntSpawner(
         return;
       }
 
-      if (!detected && fs.existsSync("/home/ichinoe/Downloads/page.html")) {
-        detected = true;
-        openBrowser("file:///home/ichinoe/Downloads/page.html");
-      }
       const logRecord = fs.readFileSync(logFilePath).toString().split(`[${prefix}] `).slice(1)
       const newRecord = logRecord.slice(recordIndex);
       recordIndex = logRecord.length;
@@ -114,7 +112,7 @@ const sendPrompts = shuntSpawner(
       logging_prefix: prefix
     });
 
-    console.log(command)
+    console.log(command);
     exec(command, { cwd: absolutePath }, (err, stdout, stderr) => {
       clearInterval(timerID);
       stderr
