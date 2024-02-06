@@ -12,15 +12,6 @@ const isWebview = window.require === undefined;
 const isDevMode = window.location.port === "3000";
 export { isWebview, isDevMode }
 
-const proxyURL = "http://127.0.0.1:7890/";
-const mirrorURL = "https://hf-mirror.com/";
-const jarvisDirectoryName = "backend";
-const pythonFilePath = "examples/run.py";
-const logDirectoryPath = "log/task";
-export {
-  proxyURL,
-  mirrorURL,
-  jarvisDirectoryName,
-  pythonFilePath,
-  logDirectoryPath
-};
+const pythonFilePath = "run.py";
+const logDirectoryPath = "log";
+export { pythonFilePath, logDirectoryPath };

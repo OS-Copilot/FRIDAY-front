@@ -1,15 +1,22 @@
 import shuntSpawner from "./shunt"
-import {
-  proxyURL,
-  mirrorURL,
-  jarvisDirectoryName,
-  pythonFilePath,
-  logDirectoryPath
-} from "./constant"
+import { isDevMode, pythonFilePath, logDirectoryPath } from "./constant"
+
+const getEnvironment = shuntSpawner(
+  () => process.env
+)(
+  () => {
+    if (isDevMode) {
+      return process.env
+    } else {
+      // TEMP: fix it later
+      return { }
+    }
+  }
+);
 
 const sendPrompts = shuntSpawner(
-  (prompts) => new Promise((resolve, reject) => {
-    setTimeout(resolve, 750, "Sure! I can help you set up your working environment.");
+  () => new Promise((resolve, _) => {
+    setTimeout(resolve, 750);
   })
 )(
   (prompts, attachedFilePath, operators) => new Promise((resolve, reject) => {
@@ -24,19 +31,27 @@ const sendPrompts = shuntSpawner(
       handleStepFin
     } = operators;
 
+    const wrapper = (str) => "\"" + str.replaceAll("\"", "\\\"") + "\"";
     const pythonCommand = (env, filePath, arg) => {
       const envList = Object
         .keys(env)
-        .map((key) => `${key}=${env[key]}`)
+        .filter((key) => env[key] !== undefined)
+        .map((key) => `${key}=${wrapper(env[key])}`)
       const argList = Object
         .keys(arg)
         .filter((key) => arg[key] !== undefined)
-        .map((key) => `--${key}=${arg[key]}`)
+        .map((key) => `--${key}=${wrapper(arg[key])}`)
       return envList.concat([`python ${filePath}`]).concat(argList).join(" ");
     }
 
-    const absolutePath = path.resolve(path.join(".", jarvisDirectoryName));
+    const {
+      REACT_APP_PATH: fridayDirPath,
+      REACT_APP_PROXY: proxyURL,
+      REACT_APP_MIRROR: mirrorURL,
+    } = getEnvironment();
+    const absolutePath = path.resolve(fridayDirPath);
     const queryID = new Date().getTime().toString();
+    const logFileName = `${queryID}.log`;
     const prefix = Array(8).fill().reduce(
       (current) =>
         current + Math.random().toString(36).slice(2, 6),
@@ -47,7 +62,7 @@ const sendPrompts = shuntSpawner(
     let detected = false;
     const fingerprint = prefix;
     const timerID = setInterval(() => {
-      const logFilePath = path.join(absolutePath, logDirectoryPath, `${queryID}.log`);
+      const logFilePath = path.join(absolutePath, logDirectoryPath, logFileName);
       if (!fs.existsSync(logFilePath)) {
         return;
       }
@@ -77,23 +92,21 @@ const sendPrompts = shuntSpawner(
       });
     }, 100);
 
-    const wrapper = (str) => "\"" + str.replaceAll("\"", "\\\"") + "\"";
     const command = pythonCommand({
       HTTP_PROXY: proxyURL,
       HTTPS_PROXY: proxyURL,
       HF_ENDPOINT: mirrorURL,
-      PYTHONPATH: wrapper(absolutePath)
+      PYTHONPATH: absolutePath
     }, pythonFilePath, {
-      query: wrapper(prompts),
-      query_file_path: attachedFilePath ? wrapper(attachedFilePath) : undefined,
-      logging_filedir: wrapper(logDirectoryPath),
-      query_id: queryID,
+      query: prompts,
+      query_file_path: attachedFilePath ?? undefined,
+      logging_filedir: logDirectoryPath,
+      logging_filename: logFileName,
       logging_prefix: prefix
     });
 
-    const virtualCommand = `. env/bin/activate && (${command})`
-    console.log(virtualCommand);
-    exec(virtualCommand, { cwd: absolutePath }, (err, stdout, stderr) => {
+    console.log(command)
+    exec(command, { cwd: absolutePath }, (err, stdout, stderr) => {
       clearInterval(timerID);
       stderr
         ? reject({ type: "stderr", info: stderr })
