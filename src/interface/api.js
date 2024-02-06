@@ -8,8 +8,17 @@ const getEnvironment = shuntSpawner(
     if (isDevMode) {
       return process.env
     } else {
-      // TEMP: fix it later
-      return { }
+      const path = window.require("path");
+      const fs = window.require("fs");
+      const dotenv = window.require("dotenv");
+      const dirPath = path.resolve(".");
+      const envPath = path.join(dirPath, ".env");
+      if (fs.existsSync(envPath)) {
+        const buf = fs.readFileSync(envPath);
+        return dotenv.parse(buf);
+      } else {
+        return Object();
+      }
     }
   }
 );
