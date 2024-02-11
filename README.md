@@ -11,40 +11,42 @@
     pip install pysqlite3-binary
     ```
 
-2. For developers, make sure Node.js (as well as npm) is installed:
+2. Follow one of the following instructions.
 
-    ```shell
-    git clone https://github.com/OS-Copilot/FRIDAY-front
-    cd FRIDAY-front/
-    npm install
-    touch .env
-    echo "REACT_APP_PATH=${FRIDAY_PATH}" >> .env
-    npm start
-    ```
+    - For developers, make sure Node.js (as well as npm) is installed:
 
-    change `${FRIDAY_PATH}` to real absolute path;
+        ```shell
+        git clone https://github.com/OS-Copilot/FRIDAY-front
+        cd FRIDAY-front/
+        npm install
+        touch .env
+        echo "REACT_APP_PATH=${FRIDAY_PATH}" >> .env
+        npm start
+        ```
 
-3. For deployer, make sure Node.js (as well as npm) is installed:
+        change `${FRIDAY_PATH}` to real absolute path;
 
-    ```shell
-    git clone https://github.com/OS-Copilot/FRIDAY-front
-    cd FRIDAY-front/
-    npm install
-    npm run build
-    touch dist/.env
-    echo "REACT_APP_PATH=${FRIDAY_PATH}" >> dist/.env
-    ```
+    - For deployer, make sure Node.js (as well as npm) is installed:
 
-    change `${FRIDAY_PATH}` to real absolute path;
+        ```shell
+        git clone https://github.com/OS-Copilot/FRIDAY-front
+        cd FRIDAY-front/
+        npm install
+        npm run build
+        touch dist/.env
+        echo "REACT_APP_PATH=${FRIDAY_PATH}" >> dist/.env
+        ```
 
-4. For users, download the packed application and add an `.env` file:
+        change `${FRIDAY_PATH}` to real absolute path;
 
-    ```shell
-    touch dist/.env
-    echo "REACT_APP_PATH=${FRIDAY_PATH}" >> dist/.env
-    ```
+    - For users, download the packed application and add an `.env` file:
 
-    change `${FRIDAY_PATH}` to real absolute path;
+        ```shell
+        touch dist/.env
+        echo "REACT_APP_PATH=${FRIDAY_PATH}" >> dist/.env
+        ```
+
+        change `${FRIDAY_PATH}` to real absolute path.
 
 ## .env Config
 

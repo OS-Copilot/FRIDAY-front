@@ -1,6 +1,5 @@
 import React from "react";
 import { styled } from "@mui/joy/styles";
-import { HotKeys, configure } from "react-hotkeys";
 import { useDropzone } from "react-dropzone";
 import Textarea from "@mui/joy/Textarea";
 import Box from "@mui/joy/Box";
@@ -28,8 +27,6 @@ const WrapTextarea = styled(Textarea)(({ theme }) => ({
 const Span = styled('div')(({ theme }) => ({
   flexGrow: 1
 }));
-
-configure({ ignoreTags: [] });
 
 function InputPanel(props) {
   const {
@@ -161,89 +158,84 @@ function InputPanel(props) {
 
   return (
     <Division>
-      <HotKeys
-        keyMap={{ SEND: "ctrl+enter" }}
-        handlers={{ SEND: handleClickSend }}
-      >
-        <div {...getRootProps()}>
-          <input {...getInputProps()} />
-          <WrapTextarea
-            color="neutral"
-            minRows={4}
-            maxRows={4}
-            sx={{
-              backgroundColor: isDragActive
-                ? "var(--joy-palette-neutral-300)"
-                : "var(--joy-palette-neutral-100)"
-            }}
-            placeholder={promptsDisabled ? "" : "Send a message"}
-            size="md"
-            variant="soft"
-            disabled={promptsDisabled}
-            value={prompts}
-            onChange={(event) => setPrompts(event.target.value)}
-            startDecorator={dropFile &&
-              <Chip
-                color="primary"
-                sx={{
-                  "--Chip-radius": "0px",
-                  minWidth: "100%",
-                  padding: 0.5,
-                  "& .MuiChip-label": {
-                    display: "flex",
-                    alignItems: "center"
-                  }
-                }}
-                endDecorator={
-                  <ChipDelete
-                    sx={{ marginRight: 0.5 }}
-                    onDelete={() => setDropFile(null)}
-                  />
+      <div {...getRootProps()}>
+        <input {...getInputProps()} />
+        <WrapTextarea
+          color="neutral"
+          minRows={4}
+          maxRows={4}
+          sx={{
+            backgroundColor: isDragActive
+              ? "var(--joy-palette-neutral-300)"
+              : "var(--joy-palette-neutral-100)"
+          }}
+          placeholder={promptsDisabled ? "" : "Send a message"}
+          size="md"
+          variant="soft"
+          disabled={promptsDisabled}
+          value={prompts}
+          onChange={(event) => setPrompts(event.target.value)}
+          startDecorator={dropFile &&
+            <Chip
+              color="primary"
+              sx={{
+                "--Chip-radius": "0px",
+                minWidth: "100%",
+                padding: 0.5,
+                "& .MuiChip-label": {
+                  display: "flex",
+                  alignItems: "center"
                 }
-              >
-                <UploadFileOutlinedIcon sx={{ marginRight: 0.5 }} />
-                {dropFile.name}
-              </Chip>
-            }
-            endDecorator={
-              <Box
+              }}
+              endDecorator={
+                <ChipDelete
+                  sx={{ marginRight: 0.5 }}
+                  onDelete={() => setDropFile(null)}
+                />
+              }
+            >
+              <UploadFileOutlinedIcon sx={{ marginRight: 0.5 }} />
+              {dropFile.name}
+            </Chip>
+          }
+          endDecorator={
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 'var(--Textarea-paddingBlock)',
+                pt: 'var(--Textarea-paddingBlock)',
+                borderTop: '1px solid',
+                borderColor: 'divider',
+                flex: 'auto',
+              }}
+            >
+              <IconButton
+                disabled={sessionList.length === 0}
+                variant="soft"
                 sx={{
-                  display: 'flex',
-                  gap: 'var(--Textarea-paddingBlock)',
-                  pt: 'var(--Textarea-paddingBlock)',
-                  borderTop: '1px solid',
-                  borderColor: 'divider',
-                  flex: 'auto',
+                  backgroundColor: sessionList.length === 0
+                    ? "rgb(240, 244, 248) !important"
+                    : undefined
                 }}
               >
-                <IconButton
-                  disabled={sessionList.length === 0}
-                  variant="soft"
-                  sx={{
-                    backgroundColor: sessionList.length === 0
-                      ? "rgb(240, 244, 248) !important"
-                      : undefined
-                  }}
-                >
-                  <DeleteOutlineIcon
-                    onClick={() => { setSessionList([]) }}
-                  />
-                </IconButton>
-                <Span />
-                <Button
-                  disabled={prompts.length === 0}
-                  loading={sendButtonLoading}
-                  loadingPosition="end"
-                  endDecorator={<SendIcon />}
-                  variant="solid"
-                  children="SEND"
-                  onClick={handleClickSend}
+                <DeleteOutlineIcon
+                  onClick={() => { setSessionList([]) }}
                 />
-              </Box>
-            }
-          />
-        </div>
-      </HotKeys>
+              </IconButton>
+              <Span />
+              <Button
+                disabled={prompts.length === 0}
+                loading={sendButtonLoading}
+                loadingPosition="end"
+                endDecorator={<SendIcon />}
+                variant="solid"
+                children="SEND"
+                onClick={handleClickSend}
+              />
+            </Box>
+          }
+        />
+      </div>
     </Division>
   );
 }
