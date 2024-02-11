@@ -3,9 +3,28 @@ const { app, Menu, BrowserWindow } = require('electron');
 const path = require('path');
 const isDevMode = require('electron-is-dev');
 
-Menu.setApplicationMenu(null);
-
 function createWindow() {
+  if (process.platform !== 'darwin') {
+    const template = [
+      {
+        label: "Application",
+        submenu: [
+          { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+        ]
+      }, 
+      {
+        label: "Edit",
+        submenu: [
+          { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+          { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+        ]
+      }
+    ];
+    Menu.setApplicationMenu(Menu.buildFromTemplate(template))
+  } else {
+    Menu.setApplicationMenu(null)
+  }
+
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 440,
