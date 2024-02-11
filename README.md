@@ -8,10 +8,9 @@
     git clone https://github.com/OS-Copilot/FRIDAY
     cd FRIDAY/
     pip install -r requirement.txt
-    pip install pysqlite3-binary
     ```
 
-2. Follow one of the following instructions.
+2. Follow one of the following instructions:
 
     - For developers, make sure Node.js (as well as npm) is installed:
 

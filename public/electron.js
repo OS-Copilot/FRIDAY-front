@@ -4,7 +4,7 @@ const path = require('path');
 const isDevMode = require('electron-is-dev');
 
 function createWindow() {
-  if (process.platform !== 'darwin') {
+  if (process.platform === 'darwin') {
     const template = [
       {
         label: "Application",
