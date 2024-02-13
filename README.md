@@ -38,15 +38,6 @@
 
         change `${FRIDAY_PATH}` to real absolute path;
 
-    - For users, download the packed application and add an `.env` file:
-
-        ```shell
-        touch dist/.env
-        echo "REACT_APP_PATH=${FRIDAY_PATH}" >> dist/.env
-        ```
-
-        change `${FRIDAY_PATH}` to real absolute path.
-
 ## .env Config
 
 - `REACT_APP_PATH` (**required**): absolute path of backend directory;
