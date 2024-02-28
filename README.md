@@ -7,7 +7,7 @@
     ```shell
     git clone https://github.com/OS-Copilot/FRIDAY
     cd FRIDAY/
-    pip install -r requirement.txt
+    pip install -r requirements.txt
     ```
 
 2. Follow one of the following instructions:
